@@ -2,7 +2,6 @@ from asyncio.log import logger
 from datetime import datetime
 import asyncio
 from yaml import safe_load as load
-from pprint import pprint
 from paramiko import SSHClient,AutoAddPolicy
 import logging
 
@@ -12,7 +11,9 @@ logging.basicConfig(format='%(asctime)s - %(name)s: %(message)s',level=logging.I
 with open("config.yml","r+") as f:
     obj=load(f.read())
     vms=obj["vms"]
-    commands=obj["commands"]
+    exec=obj["exec"]
+    target=exec["target"]
+    commands=exec["commands"]
 
 
 
@@ -28,7 +29,7 @@ async def run_commands(vm,commands):
             logger.info(stdout.read().decode("utf8"))
 
 async def main():
-    jobs=[asyncio.create_task(run_commands(vm,commands)) for vm in vms]
+    jobs=[asyncio.create_task(run_commands(vm,commands)) for vm in vms if target in vm["tags"]]
     await asyncio.gather(*jobs)
 
 if __name__ == "__main__":

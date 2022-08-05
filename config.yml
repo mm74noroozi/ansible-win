@@ -3,31 +3,44 @@ vms:
     host: hetzener-server1.homeca.ir
     port: 2223
     tags:
+      - DE
       - k8s
   - name: H16
     host: hetzener-server0.homeca.ir
     port: 2223
     tags:
+      - DE
       - k8s
   - name: H128
     host: hetzener-server2.homeca.ir
     port: 2223
     tags:
       - k8s
+      - DE
+
   - name: storage
     host: parspack-server.homeca.ir
     port: 2223
     tags:
+      - IR
       - storage
+
   - name: mail
     host: parspack-mail.homeca.ir
     port: 2223
+    tags:
+      - IR
+      - mail
+
   - name: P24
     host: parspack-macro.homeca.ir
     port: 2223
     tags:
-      - mail
+      - k8s
+      - IR
 
-commands:
-  - hostname
-  - ufw status
+exec:
+  target: DE
+  commands:
+    - hostname
+    - ufw status

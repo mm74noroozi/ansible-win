@@ -28,7 +28,7 @@ async def run_commands(vm,commands):
             logger.info(stdout.read().decode("utf8"))
 
 async def main():
-    jobs=[run_commands(vm,commands) for vm in vms]
+    jobs=[asyncio.create_task(run_commands(vm,commands)) for vm in vms]
     await asyncio.gather(*jobs)
 
 if __name__ == "__main__":
